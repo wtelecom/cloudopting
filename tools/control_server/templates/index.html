@@ -32,7 +32,7 @@
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
                                                     <strong>Hostname</strong>
-                                                    <a class="btn btn-primary pull-right btn-xs" href="#" role="button">Send command</a>
+                                                    <a class="btn btn-primary pull-right btn-xs hostname" href="#" role="button" node="adhoc@localhost/co" command="get_hostname">Send command</a>
                                                 </div>
                                                 <div class="panel-body">
                                                 </div>
@@ -40,7 +40,7 @@
                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
                                                     <strong>Kernel version</strong>
-                                                    <a class="btn btn-primary pull-right btn-xs" href="#" role="button">Send command</a>
+                                                    <a class="btn btn-primary pull-right btn-xs" href="#" role="button" node="adhoc@localhost/co" command="get_kernel_version">Send command</a>
                                                 </div>
                                                 <div class="panel-body">
                                                 </div>
@@ -58,4 +58,32 @@
                 </footer>
             </div>
         {% endblock %}
+    {% endblock %}
+    {% block jquery_init %}
+        $('.connect').on('click', function(event) {
+            event.preventDefault();
+            var to = $(this).attr('node');
+            var command = $(this).attr('command');
+            var link = $(this);
+            $.get("/connect",
+                {},
+                function(result) {
+                    console.log(result);
+            });
+        });
+
+        $('.hostname').on('click', function(event) {
+            event.preventDefault();
+            var to = $(this).attr('node');
+            var command = $(this).attr('command');
+            var link = $(this);
+            $.get("/api/v1/execute",
+                {
+                    'node': to,
+                    'command': command,
+                },
+                function(result) {
+
+            });
+        });
     {% endblock %}

@@ -9,5 +9,15 @@
     <body>
         {% block body %}
         {% endblock %}
+        <script type="text/javascript">
+            //<![CDATA[
+            {% block js %}
+            {% endblock %}
+                $(document).ready(function(){
+                    {% block jquery_init %}
+                    {% endblock %}
+                });
+            //]]>
+        </script>
     </body>
 </html>

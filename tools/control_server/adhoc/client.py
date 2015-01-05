@@ -9,6 +9,8 @@ from optparse import OptionParser
 import sleekxmpp
 import subprocess
 
+from commands.system_commands import *
+
 # Python versions before 3.0 do not use UTF-8 encoding
 # by default. To ensure that Unicode is handled properly
 # throughout SleekXMPP, we will set the default encoding
@@ -18,6 +20,9 @@ if sys.version_info < (3, 0):
     setdefaultencoding('utf8')
 else:
     raw_input = input
+
+
+COMMANDS_AVAILABLES = ["get_hostname", "get_kernel_version"]
 
 
 class ClientBot(sleekxmpp.ClientXMPP):
@@ -117,6 +122,10 @@ class ClientBot(sleekxmpp.ClientXMPP):
         form = payload
 
         request = form['values']['request']
+
+        if request in COMMANDS_AVAILABLES:
+            sc = SystemCommands(request)
+            sc.execute_command()
 
 
         self.send_message(mto=session['from'],

@@ -26,11 +26,13 @@ class AgentBot(sleekxmpp.ClientXMPP):
     commands in the clients
     """
 
-    def __init__(self, jid, password, other, greeting):
+    def __init__(self, jid, password):
         sleekxmpp.ClientXMPP.__init__(self, jid, password)
 
+
+    def prepare_adhoc(self, other, request):
         self.command_provider = other
-        self.greeting = greeting
+        self.request = request
 
         # The session_start event will be triggered when
         # the bot establishes its connection with the server
@@ -39,6 +41,7 @@ class AgentBot(sleekxmpp.ClientXMPP):
         # our roster.
         self.add_event_handler("session_start", self.start)
         self.add_event_handler("message", self.message)
+
 
     def start(self, event):
         """
@@ -62,7 +65,7 @@ class AgentBot(sleekxmpp.ClientXMPP):
 
         # The session may also contain custom data.
 
-        session = {'request': self.greeting,
+        session = {'request': self.request,
                    'next': self._command_start,
                    'error': self._command_error}
 
