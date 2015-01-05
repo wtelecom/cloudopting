@@ -1,0 +1,24 @@
+{
+  "name": "Control Server public dependencies",
+  "version": "0.0.1",
+  "homepage": "https://github.com/wtelecom/cloudopting",
+  "authors": [
+    "Francisco Hidalgo <fjhidalgo@wtelecom.es>"
+  ],
+  "description": "Control Server public dependencies",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.3",
+    "bootstrap": "~3.3.1"
+  }
+}
