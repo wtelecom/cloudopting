@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+    <head>
+        <title>CloudOpting Control Server</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
+        <script src="{{ url_for('static', filename='vendor/bower_components/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='vendor/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    </head>
+    <body>
+        {% block body %}
+        {% endblock %}
+        <script type="text/javascript">
+            //<![CDATA[
+            {% block js %}
+            {% endblock %}
+                $(document).ready(function(){
+                    {% block jquery_init %}
+                    {% endblock %}
+                });
+            //]]>
+        </script>
+    </body>
+</html>
