@@ -1,3 +1,4 @@
 env_*
 bower_components
 *.pyc
+tosca_files/

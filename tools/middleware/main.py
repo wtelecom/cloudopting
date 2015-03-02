@@ -12,11 +12,13 @@
 """
 
 import os
+import json
 from flask import Flask, jsonify, render_template, request, g
 from werkzeug import secure_filename
+from bson import json_util
 
 from orm.core import ORM
-from utils.fileutils import allowed_file
+from utils.fileutils import allowed_file, jsonify
 
 
 # TODO: Export to settings file
@@ -31,7 +33,7 @@ DATABASE = 'middleware'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.debug = True
+app.config['DEBUG'] = True
 
 
 @app.route('/')
@@ -39,7 +41,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/api/%s/tosca' % (API_VERSION), methods=['GET', 'POST'])
+@app.route('/api/%s/tosca' % (API_VERSION), methods=['POST'])
 def parser(): 
     """Fetch, add or update a TOSCA parser.
 
@@ -72,21 +74,50 @@ def parser():
         file = request.files[FILENAME]
         if file and allowed_file(file.filename):
             secure_filename(file.filename)
-            g.orm = ORM(DB_TYPE, HOST, PORT, DATABASE)
-            doc_id = g.orm.create(
+            doc_id = get_orm().create(
                 filename = file.filename,
                 collection = 'tosca' 
             )
 
             if not os.path.exists(app.config['UPLOAD_FOLDER']):
                 os.makedirs(app.config['UPLOAD_FOLDER'])
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(doc_id)))
+                create_file(file, str(doc_id))
             else:
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], str(doc_id)))
-            
+                create_file(file, str(doc_id))
+
             return jsonify(
                 {"response" : "success"}
             )
+
+
+def create_file(file, name):
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], name))
+
+def get_orm():
+    if not g.get('orm', None):
+        g.orm = ORM(DB_TYPE, HOST, PORT, DATABASE)
+    return g.get('orm', None)
+
+
+@app.route('/api/%s/tosca/<id>' % (API_VERSION), methods=['GET'])
+def get_data(id):
+    if request.method == 'GET':
+        return jsonify(
+            get_orm().get(
+                id = id,
+                collection = 'tosca' 
+            )
+        )
+
+
+@app.route('/api/%s/tosca/all' % (API_VERSION), methods=['GET'])
+def get_all_data():
+    if request.method == 'GET':
+        return json.dumps(
+            get_orm().get_all(
+                collection = 'tosca' 
+            )
+        )
 
 
 if __name__=='__main__':

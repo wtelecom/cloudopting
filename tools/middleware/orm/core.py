@@ -17,10 +17,10 @@ class ORM(object):
         self.db = eval(self.type)(self.host, self.port, self.database)
 
     def get(self, **kwargs):
-        self.db.get(kwargs)
+        return self.db.get(kwargs)
 
     def get_all(self, **kwargs):
-        self.db.get_all(kwargs)
+        return self.db.get_all(kwargs)
 
     def create(self, **kwargs):
         return self.db.create(kwargs)
