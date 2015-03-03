@@ -36,7 +36,7 @@ def index():
 def get_data(id):
     if request.method == 'GET':
         return jsonify(
-            flk_help.get_orm().get(
+            flk_help.orm.get(
                 id = id,
                 collection = 'tosca' 
             )
@@ -47,7 +47,7 @@ def get_data(id):
 def get_all_data():
     if request.method == 'GET':
         return json.dumps(
-            flk_help.get_orm().get_all(
+            flk_help.orm.get_all(
                 collection = 'tosca' 
             )
         )
@@ -80,7 +80,7 @@ def parser():
         file = request.files[settings.FILENAME]
         if file and allowed_file(file.filename):
             secure_filename(file.filename)
-            doc_id = flk_help.get_orm().create(
+            doc_id = flk_help.orm.create(
                 filename = file.filename,
                 collection = 'tosca' 
             )

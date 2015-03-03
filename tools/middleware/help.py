@@ -14,7 +14,8 @@ class FlaskHelp(object):
     def create_file(self, file, name):
         file.save(os.path.join(self.flask.config['UPLOAD_FOLDER'], name))
 
-    def get_orm(self):
+    @property
+    def orm(self):
         if not g.get('orm', None):
             g.orm = ORM(settings.DB_TYPE, settings.HOST, settings.PORT, settings.DATABASE)
         return g.get('orm', None)
