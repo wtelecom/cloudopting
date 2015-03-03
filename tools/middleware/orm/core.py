@@ -26,7 +26,7 @@ class ORM(object):
         return self.db.create(kwargs)
 
     def update(self, **kwargs):
-        self.db.update(kwargs)
+        return self.db.update(kwargs)
 
     def delete(self, **kwargs):
         self.db.delete(kwargs)

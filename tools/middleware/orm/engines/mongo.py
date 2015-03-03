@@ -31,3 +31,10 @@ class Engine(object):
             dc = dict((k, v) for k,v in kwargs.items() if k != 'collection')
             return collection.insert(dc)
 
+    def update(self, kwargs):
+        if kwargs is not None:
+            collection = self.db[kwargs['collection']]
+            dc = dict((k, v) for k,v in kwargs.items() if k != 'collection')
+            collection.update(dc['search'], {'$set':{"fields.$":dc['change']}}, upsert=False, multi=True)
+            return True
+

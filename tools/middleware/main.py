@@ -32,28 +32,28 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/api/%s/tosca/<id>' % (settings.API_VERSION), methods=['GET'])
+@app.route('/api/%s/tosca/files/<id>' % (settings.API_VERSION), methods=['GET'])
 def get_data(id):
     if request.method == 'GET':
         return jsonify(
             flk_help.orm.get(
                 id = id,
-                collection = 'tosca' 
+                collection = 'tosca_files' 
             )
         )
 
 
-@app.route('/api/%s/tosca/all' % (settings.API_VERSION), methods=['GET'])
+@app.route('/api/%s/tosca/files/all' % (settings.API_VERSION), methods=['GET'])
 def get_all_data():
     if request.method == 'GET':
         return json.dumps(
             flk_help.orm.get_all(
-                collection = 'tosca' 
+                collection = 'tosca_files' 
             )
         )
 
 
-@app.route('/api/%s/tosca' % (settings.API_VERSION), methods=['POST'])
+@app.route('/api/%s/tosca/files' % (settings.API_VERSION), methods=['POST'])
 def parser(): 
     """Add and parse a TOSCA file.
 
@@ -82,7 +82,7 @@ def parser():
             secure_filename(file.filename)
             doc_id = flk_help.orm.create(
                 filename = file.filename,
-                collection = 'tosca' 
+                collection = 'tosca_files' 
             )
 
             if not os.path.exists(app.config['UPLOAD_FOLDER']):
@@ -94,6 +94,39 @@ def parser():
             return jsonify(
                 {"response" : "OK"}
             )
+
+
+@app.route('/api/%s/tosca/configurations' % (settings.API_VERSION), methods=['GET', 'POST', 'PUT'])
+def tosca_conf():
+    if request.method == 'POST':
+        if request.json:
+            doc_id = flk_help.orm.create(
+                fields = request.json,
+                collection = 'tosca_conf' 
+            )
+            return jsonify(
+                {
+                    "response" : "OK",
+                    "id": str(doc_id)
+                }
+            )
+    elif request.method == 'PUT':
+        if request.json:
+            if flk_help.orm.update(
+                search = request.json['search'],
+                change = request.json['change'],
+                collection = 'tosca_conf' 
+            ):
+                return jsonify(
+                    {"response" : "OK"}
+                )
+    elif request.method == 'GET':
+        return json.dumps(
+            flk_help.orm.get_all(
+                collection = 'tosca_conf' 
+            )
+        )
+
 
 
 if __name__=='__main__':
