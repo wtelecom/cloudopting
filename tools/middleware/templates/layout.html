@@ -2,21 +2,27 @@
 <html>
     <head>
         <title>CloudOpting Control Server</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bower_components/font-awesome/css/font-awesome.min.css') }}">
-        <script src="{{ url_for('static', filename='vendor/bower_components/jquery/dist/jquery.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='vendor/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+        <link rel="stylesheet" href="%% url_for('static', filename='vendor/bower_components/bootstrap/dist/css/bootstrap.min.css') %%">
+        <link rel="stylesheet" href="%% url_for('static', filename='vendor/bower_components/font-awesome/css/font-awesome.min.css') %%">
+        <script src="%% url_for('static', filename='vendor/bower_components/jquery/dist/jquery.min.js') %%"></script>
+        <script src="%% url_for('static', filename='vendor/bower_components/bootstrap/dist/js/bootstrap.min.js') %%"></script>
+        <script src="%% url_for('static', filename='vendor/bower_components/angular/angular.min.js') %%"></script>
+        <script src="%% url_for('static', filename='vendor/bower_components/angular-ui-router/release/angular-ui-router.min.js') %%"></script>
+        <script src="%% url_for('static', filename='js/app.js') %%"></script>
+        <script src="%% url_for('static', filename='js/controllers/index_controller.js') %%"></script>
+        <script src="%% url_for('static', filename='js/routes/index.js') %%"></script>
+        <script src="%% url_for('static', filename='js/services/rest_service.js') %%"></script>
     </head>
-    <body>
-        {% block body %}
-        {% endblock %}
+    <body ng-app="COMiddleware">
+        <% block body %>
+        <% endblock %>
         <script type="text/javascript">
             //<![CDATA[
-            {% block js %}
-            {% endblock %}
+            <% block js %>
+            <% endblock %>
                 $(document).ready(function(){
-                    {% block jquery_init %}
-                    {% endblock %}
+                    <% block jquery_init %>
+                    <% endblock %>
                 });
             //]]>
         </script>

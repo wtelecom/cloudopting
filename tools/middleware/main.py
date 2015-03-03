@@ -14,6 +14,7 @@
 import os
 import json
 from flask import Flask, render_template, request
+# from flask.ext.triangle import Triangle
 from werkzeug import secure_filename
 
 import settings
@@ -21,7 +22,20 @@ from utils.fileutils import allowed_file, jsonify
 from help import FlaskHelp
 
 
-app = Flask(__name__)
+class CustomFlask(Flask):
+    jinja_options = Flask.jinja_options.copy()
+    jinja_options.update(dict(
+        block_start_string='<%',
+        block_end_string='%>',
+        variable_start_string='%%',
+        variable_end_string='%%',
+        comment_start_string='<#',
+        comment_end_string='#>',
+    ))
+
+
+app = CustomFlask(__name__)
+# Triangle(app)
 app.config['UPLOAD_FOLDER'] = settings.UPLOAD_FOLDER
 app.config['DEBUG'] = True
 flk_help = FlaskHelp(app)
@@ -30,6 +44,11 @@ flk_help = FlaskHelp(app)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+@app.route('/list')
+def list():
+    return render_template('list.html')
 
 
 @app.route('/api/%s/tosca/files/<id>' % (settings.API_VERSION), methods=['GET'])

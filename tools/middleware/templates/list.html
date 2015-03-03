@@ -1,0 +1,38 @@
+<div class="row">
+    <div ng-repeat='field in fields'>
+        <div class="col-md-4 col-xs-12">
+            <div class="panel-group" id="accordion{{$index}}" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingEl{{$index}}">
+                        <strong>
+                            <a data-toggle="collapse" data-parent="#accordion{{$index}}" href="#collapseEl{{$index}}" aria-expanded="true" aria-controls="collapseEl{{$index}}"  style="color: #000;">
+                                {{field.title}}
+                            </a>
+                        </strong>
+                        <a class="btn btn-primary pull-right btn-xs hostname" href="#" role="button" node="adhoc@localhost/co" command="get_hostname">Update</a>
+                    </div>
+                    <div id="collapseEl{{$index}}" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingEl{{$index}}">
+                        <div class="panel-body">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>Title</strong>
+                                </div>
+                                <div class="panel-body">
+                                    <input type="email" class="form-control" placeholder="Enter title">
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>Command</strong>
+                                </div>
+                                <div class="panel-body">
+                                    <input type="email" class="form-control" placeholder="Enter command">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
