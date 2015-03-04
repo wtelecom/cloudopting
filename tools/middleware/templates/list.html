@@ -5,30 +5,23 @@
                 <div class="panel panel-default">
                     <div class="panel-heading" role="tab" id="headingEl{{$index}}">
                         <strong>
-                            <a data-toggle="collapse" data-parent="#accordion{{$index}}" href="#collapseEl{{$index}}" aria-expanded="true" aria-controls="collapseEl{{$index}}"  style="color: #000;">
-                                {{field.title}}
-                            </a>
+                            {{field.title}}
                         </strong>
-                        <a class="btn btn-primary pull-right btn-xs hostname" href="#" role="button" node="adhoc@localhost/co" command="get_hostname">Update</a>
+                        <a class="btn btn-primary pull-right btn-xs" data-toggle="collapse" data-parent="#accordion{{$index}}" href="#collapseEl{{$index}}" aria-expanded="true" aria-controls="collapseEl{{$index}}" role="button">Toggle</a>
                     </div>
                     <div id="collapseEl{{$index}}" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingEl{{$index}}">
                         <div class="panel-body">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <strong>Title</strong>
-                                </div>
-                                <div class="panel-body">
-                                    <input type="email" class="form-control" placeholder="Enter title">
-                                </div>
+                            <div class="form-group">
+                                <label>Title</label>
+                                <input type="text" class="form-control" placeholder="Enter a title" value="{{field.title}}">
                             </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <strong>Command</strong>
-                                </div>
-                                <div class="panel-body">
-                                    <input type="email" class="form-control" placeholder="Enter command">
-                                </div>
+                            <div class="form-group">
+                                <label>Command</label>
+                                <input type="text" class="form-control" placeholder="Enter a command">
                             </div>
+                        </div>
+                        <div class="panel-footer">
+                            <button type="submit" class="btn btn-success btn-block">Update</button>
                         </div>
                     </div>
                 </div>

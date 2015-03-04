@@ -13,29 +13,15 @@
 
 import os
 import json
-from flask import Flask, render_template, request
-# from flask.ext.triangle import Triangle
+from flask import render_template, request
 from werkzeug import secure_filename
 
 import settings
 from utils.fileutils import allowed_file, jsonify
-from help import FlaskHelp
-
-
-class CustomFlask(Flask):
-    jinja_options = Flask.jinja_options.copy()
-    jinja_options.update(dict(
-        block_start_string='<%',
-        block_end_string='%>',
-        variable_start_string='%%',
-        variable_end_string='%%',
-        comment_start_string='<#',
-        comment_end_string='#>',
-    ))
+from help import FlaskHelp, CustomFlask
 
 
 app = CustomFlask(__name__)
-# Triangle(app)
 app.config['UPLOAD_FOLDER'] = settings.UPLOAD_FOLDER
 app.config['DEBUG'] = True
 flk_help = FlaskHelp(app)
