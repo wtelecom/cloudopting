@@ -12,7 +12,11 @@ class FlaskHelp(object):
         self.flask = flask
 
     def create_file(self, file, name):
-        file.save(os.path.join(self.flask.config['UPLOAD_FOLDER'], name))
+        try:
+            file.save(os.path.join(self.flask.config['UPLOAD_FOLDER'], name))
+            return os.path.join(self.flask.config['UPLOAD_FOLDER'], name)
+        except:
+            return False
 
     @property
     def orm(self):

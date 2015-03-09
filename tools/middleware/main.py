@@ -18,6 +18,7 @@ from werkzeug import secure_filename
 
 import settings
 from utils.fileutils import allowed_file, jsonify
+from utils.parser import ToscaUtils, execute_walk
 from help import FlaskHelp, CustomFlask
 
 
@@ -87,14 +88,33 @@ def parser():
             secure_filename(file.filename)
             doc_id = flk_help.orm.create(
                 filename = file.filename,
+                fields = {},
                 collection = 'tosca_files' 
             )
 
             if not os.path.exists(app.config['UPLOAD_FOLDER']):
                 os.makedirs(app.config['UPLOAD_FOLDER'])
-                flk_help.create_file(file, str(doc_id))
+                filename = flk_help.create_file(file, str(doc_id))
+                if filename:
+                    tu = ToscaUtils(filename)
+                    if execute_walk(tu):
+                        flk_help.orm.update(
+                            search = {"_id": doc_id},
+                            change = tu.main_dict,
+                            collection = 'tosca_files' 
+                        )
+                        print tu.main_dict
             else:
-                flk_help.create_file(file, str(doc_id))
+                filename = flk_help.create_file(file, str(doc_id))
+                if filename:
+                    tu = ToscaUtils(filename)
+                    if execute_walk(tu):
+                        flk_help.orm.update(
+                            search = {"_id": doc_id},
+                            change = tu.main_dict,
+                            collection = 'tosca_files' 
+                        )
+                        print tu.main_dict
 
             return jsonify(
                 {"response" : "OK"}

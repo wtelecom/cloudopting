@@ -35,6 +35,6 @@ class Engine(object):
         if kwargs is not None:
             collection = self.db[kwargs['collection']]
             dc = dict((k, v) for k,v in kwargs.items() if k != 'collection')
-            collection.update(dc['search'], {'$set':{"fields.$":dc['change']}}, upsert=False, multi=True)
+            collection.update(dc['search'], {'$set':{"fields":dc['change']}}, upsert=False, multi=True)
             return True
 
